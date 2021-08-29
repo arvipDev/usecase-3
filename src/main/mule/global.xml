@@ -20,4 +20,5 @@ http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/m
 	</secure-properties:config>
 	<json-logger:config name="JSON_Logger_Config" doc:name="JSON Logger Config" doc:id="ecf0576d-d7d6-4bef-b5a1-7c1654163196" environment="${mule.env}"/>
 	<configuration-properties doc:name="Configuration properties" doc:id="439b8617-6ee6-4fdc-9e00-478fa82c0972" file="config.properties" />
+	<global-property doc:name="Global Property" doc:id="efd56e54-f4c3-47d2-b03d-f6048215d474" name="secure.key" value="123qpmz)(*" />
 </mule>
