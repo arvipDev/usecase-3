@@ -16,8 +16,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<app.runtime>4.3.0-20210719</app.runtime>
-		<mule.maven.plugin.version>3.5.2</mule.maven.plugin.version>
-		<munit.version>2.3.5</munit.version>
+		<mule.maven.plugin.version>3.5.0</mule.maven.plugin.version>
+		<munit.version>2.3.0</munit.version>
 	</properties>
 
 	<build>
@@ -128,14 +128,14 @@
 		<dependency>
 			<groupId>com.mulesoft.munit</groupId>
 			<artifactId>munit-runner</artifactId>
-			<version>2.3.5</version>
+			<version>2.3.0</version>
 			<classifier>mule-plugin</classifier>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.mulesoft.munit</groupId>
 			<artifactId>munit-tools</artifactId>
-			<version>2.3.5</version>
+			<version>2.3.0</version>
 			<classifier>mule-plugin</classifier>
 			<scope>test</scope>
 		</dependency>
@@ -175,7 +175,7 @@
 			<layout>default</layout>
 			<url>https://repository.mulesoft.org/releases/</url>
 			<snapshots>
-				<enabled>false</enabled>
+				<enabled>true</enabled>
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
