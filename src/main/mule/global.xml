@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:twilio-connector="http://www.mulesoft.org/schema/mule/twilio-connector" xmlns:twilio="http://www.mulesoft.org/schema/mule/twilio" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/twilio http://www.mulesoft.org/schema/mule/twilio/current/mule-twilio.xsd
+http://www.mulesoft.org/schema/mule/twilio-connector http://www.mulesoft.org/schema/mule/twilio-connector/current/mule-twilio-connector.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="e5d0db86-57f6-43a7-b85d-05b6ede92351" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<twilio:config name="Twilio_Connector_Config" doc:name="Twilio Connector Config" doc:id="2856c3ce-c2a3-43c5-b4fa-ae85226aa14a" >
+		<twilio:account-sid-auth-token-connection username="${secure::twilio.username}" password="${secure::twilio.password}" baseUri="${secure::twilio.uri}"/>
+	</twilio:config>
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="5c477a42-ad09-48a9-99c5-1a2cf5050715" file="config.properties" key="${secure.key}" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<json-logger:config name="JSON_Logger_Config" doc:name="JSON Logger Config" doc:id="ecf0576d-d7d6-4bef-b5a1-7c1654163196" environment="${mule.env}"/>
+	<configuration-properties doc:name="Configuration properties" doc:id="439b8617-6ee6-4fdc-9e00-478fa82c0972" file="config.properties" />
+</mule>

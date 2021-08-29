@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="usecase-3-suite.xml" />
+	<global-property doc:name="Global Property" doc:id="33d5463c-5a91-4ebf-bc7f-b07be77ead13" name="secure.key" value="123qpmz)(*" />
+	<munit:test name="sendMessage-Flow1-test-messages-success" doc:id="94e6a15e-e70d-4a06-8cce-a47ab4bffc43" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="aa280cc7-e197-4e53-8089-9b56b3faf346" >
+				<munit:payload value="#[readUrl('classpath://sendMessageFlow1testmessagessuccess\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://sendMessageFlow1testmessagessuccess\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to sendMessage-Flow1" doc:id="251bd8ee-c1db-452b-ae7f-56e0d4717738" name="sendMessage-Flow1"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="c738695b-079f-4a61-9d2d-d29421e1cbe0" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sendMessage-Flow2-test-messagesqp-success" doc:id="fb10f9f9-3ee5-4e9a-8339-ca4f308e1f3f" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="584a9e68-b2c3-4d38-8d86-36c1e2d8d4f3" >
+				<munit:payload value="#[readUrl('classpath://sendMessageFlow2testmessagesqpsuccess\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://sendMessageFlow2testmessagesqpsuccess\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to sendMessage-Flow2" doc:id="99c41253-90f7-4192-b53d-554bc5fd56a2" name="sendMessage-Flow2"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="93ef5990-1ded-4a5c-889e-7e55a7e29cd0" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sendMessage-Flow3-postMessages-success" doc:id="75003055-1509-4040-8e8d-b48aee055ee5" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="32d09523-0f47-446e-9e41-9b4535923274" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://sendMessageFlow3postMessagessuccess\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://sendMessageFlow3postMessagessuccess\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to sendMessage-Flow3" doc:id="c2e0d838-a64f-4125-acea-0e0b0e5edac2" name="sendMessage-Flow3"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="eb173b36-7046-456c-ae5c-adfc338ec661" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="3ce01861-43f5-4a93-b048-18e8976c8738" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

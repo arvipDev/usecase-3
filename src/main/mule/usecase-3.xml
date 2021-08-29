@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:twilio-connector="http://www.mulesoft.org/schema/mule/twilio-connector"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:twilio="http://www.mulesoft.org/schema/mule/twilio" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/twilio http://www.mulesoft.org/schema/mule/twilio/current/mule-twilio.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/twilio-connector http://www.mulesoft.org/schema/mule/twilio-connector/current/mule-twilio-connector.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+	<flow name="sendMessage-Flow1" doc:id="c4d60182-d930-475f-a328-455174bc27b3" >
+		<http:listener doc:name="GET/ messages" doc:id="48eb2aa3-a96c-4cd3-952d-7819ff669ba1" path="/messages" config-ref="HTTP_Listener_config">
+			<http:error-response statusCode="#[vars.httpStatusCode default 500]" reasonPhrase='#[vars.httpStatus default "Not handled by utility"]' >
+				<http:body ><![CDATA[#[payload]]]></http:body>
+			</http:error-response>
+		</http:listener>
+		<ee:transform doc:name="transform_message" doc:id="4a4f99b7-899f-422d-84fe-cf3d1f9dcd95" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/x-www-form-urlencoded
+---
+{
+	From: "+16787265106",
+	To: "+919902930265",
+	Body:"Hello there"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<twilio:create20100401-accounts-messagesjson-by-account-sid doc:name="send_message" doc:id="57db202e-4bc7-4a32-9d93-f5518d98dd37" config-ref="Twilio_Connector_Config" accountSid="AC1e55e7e7500d2431dc16b9ddd44965a7">
+		</twilio:create20100401-accounts-messagesjson-by-account-sid>
+		<json-logger:logger doc:name="Logger" doc:id="0c03fd40-2ec7-4bd6-8e7c-030610dd72c0" config-ref="JSON_Logger_Config" message="JSON Logger activated: "/>
+		<ee:transform doc:name="output_message" doc:id="6ff2b89d-57d6-4408-a3cd-eab9e74a00da" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message":"message sent",
+	"data":payload
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="sendMessage-Flow2" doc:id="51ee2ec7-21b1-424e-8b23-359041ac5548" >
+		<http:listener doc:name="GET/ messagesqp_Listener" doc:id="8bbe4e65-3f5e-4d36-ba42-b462d699c229" config-ref="HTTP_Listener_config" path="/messagesqp" >
+			<http:error-response statusCode="#[vars.httpStatusCode default 500]" reasonPhrase='#[vars.httpStatus default "Not handled by universal handler"]' >
+				<http:body ><![CDATA[#[payload]]]></http:body>
+			</http:error-response>
+		</http:listener>
+		<set-variable value="#[attributes.queryParams.message]" doc:name="message" doc:id="aa272648-78c8-4b96-bb9a-d8558d703cf6" variableName="message"/>
+		<ee:transform doc:name="transform_message" doc:id="0c81621c-9b76-4307-b1f5-9ac2889cd82c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/x-www-form-urlencoded
+---
+{
+	From: "+16787265106",
+	To: "+919902930265",
+	Body: vars.message
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<twilio:create20100401-accounts-messagesjson-by-account-sid doc:name="send_message" doc:id="9db2f3c6-25f9-422a-807a-f681eeb4b21e" config-ref="Twilio_Connector_Config" accountSid="AC1e55e7e7500d2431dc16b9ddd44965a7" />
+		<json-logger:logger doc:name="Logger" doc:id="af13e324-136d-4c31-9261-bc33799c7574" config-ref="JSON_Logger_Config" message="JSON Logger activated: " />
+		<ee:transform doc:name="output_message" doc:id="bb560478-b7b6-4100-a7df-3c5351b35034" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message":"message sent",
+	"data":payload
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="sendMessage-Flow3" doc:id="f30b72be-53ed-4fcf-849b-9664115b626a" >
+		<http:listener doc:name="POST/ messages" doc:id="39bd848f-84d7-4da1-b7b9-4f66bd7af7a9" config-ref="HTTP_Listener_config" path="/messages" allowedMethods="POST">
+			<http:error-response statusCode="#[vars.httpStatusCode default 500]" reasonPhrase='#[vars.httpStatus default "Not handled by universal handler"]' >
+				<http:body ><![CDATA[#[payload]]]></http:body>
+			</http:error-response>
+		</http:listener>
+		<set-variable value="#[payload.message]" doc:name="message" doc:id="e325b806-c7de-4cbc-a9bd-e8d8073ef515" variableName="message" />
+		<set-variable value="#[payload.number]" doc:name="phone_number" doc:id="8e53bf00-09a7-4d73-95a1-a9ad7e277958" variableName="number"/>
+		<ee:transform doc:name="transform_message" doc:id="d5c93882-59b7-4c92-821a-17ee58baea5b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/x-www-form-urlencoded
+---
+{
+	From: "+16787265106",
+	To: vars.number,
+	Body: vars.message
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<twilio:create20100401-accounts-messagesjson-by-account-sid doc:name="send_message" doc:id="6283fc1a-64f8-4123-af05-6dfb5b837396" config-ref="Twilio_Connector_Config" accountSid="AC1e55e7e7500d2431dc16b9ddd44965a7" />
+		<json-logger:logger doc:name="Logger" doc:id="056ebbb2-3120-44ee-933c-caf4243e0e16" config-ref="JSON_Logger_Config" message="JSON Logger activated: " />
+		<ee:transform doc:name="output_message" doc:id="7e1eb4dd-4f04-43b1-bce7-afbd96f9b086" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message":"message sent",
+	"data":payload
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
