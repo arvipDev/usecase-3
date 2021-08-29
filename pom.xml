@@ -43,6 +43,7 @@
 						<region>${region}</region>
 						<workers>${workers}</workers>
 						<workerType>${workerType}</workerType>
+						<objectStoreV2>True</objectStoreV2>
 						<properties>
 							<key>value</key>
 						</properties>
